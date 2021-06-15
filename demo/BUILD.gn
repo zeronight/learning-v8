@@ -1,17 +1,45 @@
+import("//gni/v8.gni")
+
 v8_executable("demo_extension") {
-  sources = [ "learning-v8/demo/extension.cc" ]
+  sources = [ "extension.cc" ]
 
   configs = [
     # Note: don't use :internal_config here because this target will get
     # the :external_config applied to it by virtue of depending on :v8, and
     # you can't have both applied to the same target.
-    ":internal_config_base",
+    "//:internal_config_base",
   ]
 
   deps = [
-    ":v8",
-    ":v8_libbase",
-    ":v8_libplatform",
+    "//:v8",
+    "//:v8_libbase",
+    "//:v8_libplatform",
     "//build/win:default_exe_manifest",
   ]
 }
+
+v8_executable("demo_code_cache") {
+  sources = [ "code_cache.cc" ]
+
+  configs = [
+    # Note: don't use :internal_config here because this target will get
+    # the :external_config applied to it by virtue of depending on :v8, and
+    # you can't have both applied to the same target.
+    "//:internal_config_base",
+  ]
+
+  deps = [
+    "//:v8",
+    "//:v8_libbase",
+    "//:v8_libplatform",
+    "//build/win:default_exe_manifest",
+  ]
+}
+
+# move demo group to BUILD.gn
+# group("demo") {
+#   deps = [
+#     "//learning_v8/demo:demo_extension",
+#     "//learning_v8/demo:demo_code_cache",
+#   ]
+# }
